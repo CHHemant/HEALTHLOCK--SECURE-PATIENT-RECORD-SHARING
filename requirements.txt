@@ -5,7 +5,7 @@ itsdangerous==2.1.2
 python-dotenv==1.0.1
 
 # Required for crypto_utils Fernet key management
-cryptography==41.0.7
+cryptography==46.0.5
 # Optional but recommended for QR code generation in app.py
 qrcode==7.4.2
 Pillow==10.3.0
