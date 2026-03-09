@@ -8,4 +8,4 @@ python-dotenv==1.0.1
 cryptography==41.0.7
 # Optional but recommended for QR code generation in app.py
 qrcode==7.4.2
-Pillow==10.3.0
+Pillow==12.1.1
