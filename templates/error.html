@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+  <div class="card p-5 border-0" style="max-width: 420px;">
+    <h1 class="display-4 mb-3">Error {{ code }}</h1>
+    <p class="lead mb-3">{{ message }}</p>
+    <a class="btn btn-primary mt-2" href="/">Go Home</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: healthlock
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app -w 2 -k gthread --threads 8 --timeout 60 --bind 0.0.0.0:${PORT}
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SHARE_TOKEN_MAX_AGE_SECONDS
+        value: 3600
+      - key: FERNET_KEY_PATH
+        value: /opt/render/project/data/fernet.key
+      - key: DATABASE_URL
+        value: sqlite:////opt/render/project/data/healthlock.db
+    disk:
+      name: data
+      mountPath: /opt/render/project/data
+      sizeGB: 1

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+<div class="row">
+  <div class="col-md-6">
+    <h4>Users</h4>
+    <div class="table-responsive mb-4">
+      <table class="table table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="2" class="text-muted text-center">No users.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4>Records</h4>
+    <div class="table-responsive mb-4">
+      <table class="table table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Created</th>
+            <th>By User</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in records %}
+          <tr>
+            <td>{{ record.id }}</td>
+            <td>{{ record.patient_name }}</td>
+            <td>{{ record.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ record.created_by.username }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" class="text-muted text-center">No records.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

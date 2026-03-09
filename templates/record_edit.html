@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-lg">
+      <div class="card-header brand-panel text-center py-4">
+        <div class="d-flex align-items-center justify-content-center mb-3">
+          <div class="medical-icon icon-soft">
+            <i class="fas fa-edit"></i>
+          </div>
+        </div>
+        <h3 class="mb-1">Edit Record</h3>
+        <p class="mb-0 opacity-90">Update patient record information</p>
+      </div>
+      <div class="card-body p-4">
+        <form method="POST" class="needs-validation" novalidate>
+          <div class="mb-4">
+            <label for="patient_name" class="form-label fw-semibold">
+              <i class="fas fa-user me-2 text-primary"></i>Patient Name
+            </label>
+            <input type="text" class="form-control form-control-lg" id="patient_name" name="patient_name" 
+                   value="{{ record.patient_name }}" required minlength="2" maxlength="200">
+            <div class="form-text">2-200 characters required</div>
+            <div class="invalid-feedback">Patient name must be 2-200 characters.</div>
+          </div>
+
+          <div class="mb-4">
+            <label for="content" class="form-label fw-semibold">
+              <i class="fas fa-file-medical me-2 text-primary"></i>Medical Record Content
+            </label>
+            <textarea class="form-control" id="content" name="content" rows="12" 
+                      required minlength="5">{{ decrypt_text(fernet, record.encrypted_content) }}</textarea>
+            <div class="form-text">Minimum 5 characters required. Content will be re-encrypted on save.</div>
+            <div class="invalid-feedback">Record content must be at least 5 characters.</div>
+          </div>
+
+          {% if record.has_pdf %}
+          <div class="alert alert-info d-flex align-items-start mb-4">
+            <i class="fas fa-file-pdf me-3 mt-1"></i>
+            <div>
+              <strong>PDF Attachment</strong><br>
+              <small>This record has a PDF attachment. To replace it, you'll need to create a new record.</small>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="alert alert-warning d-flex align-items-start">
+            <i class="fas fa-exclamation-triangle me-3 mt-1"></i>
+            <div>
+              <strong>Security Notice</strong><br>
+              <small>Changes will be encrypted and saved. This action will be logged in the audit trail.</small>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{{ url_for('view_record', record_id=record.id) }}" class="btn btn-outline-secondary btn-lg">
+              <i class="fas fa-times me-2"></i>Cancel
+            </a>
+            <button type="submit" class="btn btn-primary btn-lg btn-animated">
+              <i class="fas fa-save me-2"></i>Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Character counter for content
+  const contentTextarea = document.getElementById('content');
+  const patientNameInput = document.getElementById('patient_name');
+  
+  function createCharCounter(element, maxLength) {
+    const counter = document.createElement('div');
+    counter.className = 'form-text text-end';
+    counter.style.marginTop = '0.25rem';
+    element.parentNode.appendChild(counter);
+    
+    function updateCounter() {
+      const current = element.value.length;
+      counter.textContent = `${current}${maxLength ? `/${maxLength}` : ''} characters`;
+      counter.classList.toggle('text-warning', maxLength && current > maxLength * 0.8);
+      counter.classList.toggle('text-danger', maxLength && current > maxLength * 0.95);
+    }
+    
+    element.addEventListener('input', updateCounter);
+    updateCounter();
+  }
+  
+  if (contentTextarea) {
+    createCharCounter(contentTextarea);
+  }
+  
+  if (patientNameInput) {
+    createCharCounter(patientNameInput, 200);
+  }
+
+  // Form validation
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  });
+});
+</script>
+{% endblock %}

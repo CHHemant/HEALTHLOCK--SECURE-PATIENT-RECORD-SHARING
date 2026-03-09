@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card">
+      <div class="card-header text-center">
+    <div class="card border-0 shadow-lg">
+      <div class="card-header bg-warning text-dark text-center py-4">
+        <div class="d-flex align-items-center justify-content-center mb-3">
+          <div class="medical-icon">🆘</div>
+          <h3 class="mb-0">Emergency Access</h3>
+          <i class="fas fa-key fa-3x text-dark opacity-75"></i>
+        </div>
+        <p class="mb-0 opacity-75">Enter the emergency code provided on lockout</p>
+        <h3 class="mb-1">Emergency Access</h3>
+        <p class="mb-0">Enter your emergency code to regain access</p>
+      </div>
+      <div class="card-body p-4">
+        <form method="post">
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Username</label>
+            <input type="text" name="username" value="{{ username|default('') }}" class="form-control" required>
+        <div class="alert alert-info d-flex align-items-start mb-4">
+          <i class="fas fa-info-circle me-3 mt-1"></i>
+          <div>
+            <strong>Emergency Code Required</strong><br>
+            <small>Check your email for the emergency access code, or look for notifications if email is not configured.</small>
+          </div>
+        </div>
+
+        <form method="POST" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label fw-semibold">
+              <i class="fas fa-user me-2 text-primary"></i>Username
+            </label>
+            <input type="text" class="form-control form-control-lg" id="username" name="username" 
+                   value="{{ username }}" required readonly>
+          </div>
+          
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Emergency Code</label>
+            <input type="text" name="code" class="form-control" placeholder="e.g. a1b2c3" required>
+            <div class="form-text">This code expires after 10 minutes.</div>
+            <label for="code" class="form-label fw-semibold">
+              <i class="fas fa-key me-2 text-warning"></i>Emergency Code
+            </label>
+            <input type="text" class="form-control form-control-lg text-center" id="code" name="code" 
+                   required placeholder="Enter 6-character code" maxlength="6" style="letter-spacing: 0.2em;">
+            <div class="form-text text-center">Code expires in 10 minutes</div>
+            <div class="invalid-feedback">Please enter your emergency code.</div>
+          </div>
+          <button class="btn btn-primary w-100 py-3 btn-animated" type="submit">
+            <i class="fas fa-unlock me-2"></i>Unlock Account
+
+          <button type="submit" class="btn btn-warning btn-lg w-100 mb-3 btn-animated text-dark fw-bold">
+            <i class="fas fa-unlock me-2"></i>Emergency Login
+          </button>
+          <div class="text-center mt-3">
+            <a class="btn btn-outline-secondary btn-chip" href="{{ url_for('login') }}">Back to Login</a>
+          </div>
+        </form>
+
+        <div class="text-center">
+          <p class="text-muted mb-2">Remember your password?</p>
+          <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Login
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-warning mt-4">
+      <div class="d-flex align-items-start">
+        <i class="fas fa-exclamation-triangle me-3 mt-1"></i>
+        <div>
+          <strong>Security Notice</strong><br>
+          <small>Emergency codes are single-use and expire quickly. If you suspect unauthorized access, contact your administrator immediately.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const codeInput = document.getElementById('code');
+  
+  // Auto-uppercase and format code input
+  if (codeInput) {
+    codeInput.addEventListener('input', function() {
+      this.value = this.value.toUpperCase().replace(/[^A-F0-9]/g, '');
+    });
+    
+    // Focus on load
+    codeInput.focus();
+  }
+
+  // Form validation
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  });
+});
+</script>
+{% endblock %}

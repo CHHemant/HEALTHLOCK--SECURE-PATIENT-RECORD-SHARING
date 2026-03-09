@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <h2 class="mb-4 text-center">Profile</h2>
+    <div class="mb-4">
+      <strong>Username:</strong> {{ user.username }}
+    </div>
+    <h5 class="mb-3">Change Password</h5>
+    <form method="post" class="bg-light p-4 rounded shadow-sm">
+      <div class="mb-3">
+        <label class="form-label">Current Password</label>
+        <input type="password" name="current_password" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">New Password</label>
+        <input type="password" name="new_password" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Confirm New Password</label>
+        <input type="password" name="confirm_password" class="form-control" required>
+      </div>
+      <button class="btn btn-primary w-100" type="submit">Update Password</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

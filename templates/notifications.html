@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Notifications</h2>
+{% if notifications %}
+  <ul class="list-group mb-4">
+    {% for note in notifications %}
+      <li class="list-group-item">{{ note|safe }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="alert alert-info">No notifications.</div>
+{% endif %}
+<a class="btn btn-secondary" href="/records">Back to Records</a>
+{% endblock %}

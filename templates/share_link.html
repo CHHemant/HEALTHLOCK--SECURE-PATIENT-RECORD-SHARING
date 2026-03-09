@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">Share Patient Record</h1>
+    <p class="hero-subtitle">Secure sharing with QR code access</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex align-items-center">
+      <div class="medical-icon me-3">🔗</div>
+      <div>
+        <h3 class="mb-0">Share Link Generated</h3>
+        <p class="mb-0 opacity-75">Secure access link with QR code</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-4">
+    <div class="alert alert-info mb-4">
+      <i class="fas fa-info-circle me-2"></i>
+      This link will expire in <strong>{{ (max_age / 60) | round(1) }} minutes</strong> ({{ max_age }} seconds). Anyone with the link can view the record until it expires.
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <h5 class="mb-3">
+          <i class="fas fa-link me-2"></i>Share URL
+        </h5>
+        <div class="input-group input-group-lg mb-3">
+          <input id="share-url" type="text" class="form-control" readonly value="{{ share_url }}" onclick="this.select();">
+          <button id="copy-btn" class="btn btn-primary" type="button">
+            <i class="fas fa-copy me-1"></i>Copy
+          </button>
+        </div>
+        <span id="copy-status" class="text-success fw-semibold"></span>
+        
+        <!-- Debug information -->
+        <div class="mt-2">
+          <small class="text-muted">
+            <i class="fas fa-info-circle me-1"></i>
+            URL: <code>{{ share_url }}</code>
+          </small>
+        </div>
+        <p class="muted mt-2">
+          <i class="fas fa-shield-alt me-1"></i>
+          This link is encrypted and secure. Share it only with authorized healthcare providers.
+        </p>
+      </div>
+      
+      <div class="col-lg-6 text-center">
+        <h5 class="mb-3">
+          <i class="fas fa-qrcode me-2"></i>QR Codes for Easy Sharing
+        </h5>
+        {% if lan_qr_code or lan_share_url %}
+          <div class="qr-code-container mb-3 card-hover">
+            <div class="alert alert-success mb-2">
+              <i class="fas fa-wifi me-2"></i>
+              <strong>📱 USE THIS QR CODE FOR MOBILE DEVICES</strong>
+            </div>
+            <div><strong>Local Network (LAN) - For Mobile Scanning</strong></div>
+            {% if lan_qr_code %}
+              <img src="{{ lan_qr_code }}" alt="LAN QR Code" class="img-fluid lan-qr-code-image" style="max-width: 250px; border: 3px solid #28a745; border-radius: 8px; padding: 10px; background: white;">
+              <p class="text-success mt-2">
+                <i class="fas fa-mobile-alt me-1"></i>
+                <strong>Scan this QR code with your mobile device</strong>
+              </p>
+              <div class="mt-2">
+                <button class="btn btn-success btn-sm btn-animated" onclick="downloadQR('.lan-qr-code-image')">
+                  <i class="fas fa-download me-1"></i>Download Mobile QR
+                </button>
+              </div>
+            {% endif %}
+            {% if lan_share_url %}
+              <div class="mt-2">
+                <small class="text-muted">Mobile URL:</small>
+                <div class="input-group input-group-sm mt-1">
+                  <input type="text" class="form-control" readonly value="{{ lan_share_url }}" onclick="this.select();">
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if qr_code %}
+          <hr />
+          <div class="qr-code-container mb-3 card-hover">
+            <div><strong>Public (for internet sharing)</strong></div>
+            <img src="{{ qr_code }}" alt="QR Code" class="img-fluid qr-code-image" style="max-width: 250px; border: 2px solid #e5e7eb; border-radius: 8px; padding: 10px; background: white;">
+            <p class="muted mt-2">
+              <i class="fas fa-globe me-1"></i>
+              Use this for sharing over the internet
+            </p>
+            <div class="mt-2">
+              <button class="btn btn-outline-primary btn-sm btn-animated" onclick="downloadQR('.qr-code-image')">
+                <i class="fas fa-download me-1"></i>Download Public QR
+              </button>
+            </div>
+          </div>
+        {% else %}
+          <div class="alert alert-warning mb-3">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <p class="mb-0">QR code generation is not available. Please copy the link manually.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h6>Security Features</h6>
+          <p class="muted mb-0">
+            <i class="fas fa-check text-success me-1"></i>End-to-end encrypted sharing
+            <span class="mx-2">•</span>
+            <i class="fas fa-check text-success me-1"></i>Time-limited access
+            <span class="mx-2">•</span>
+            <i class="fas fa-check text-success me-1"></i>Audit trail logging
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="d-flex gap-3 mt-4">
+      <a class="btn btn-outline-primary btn-animated" href="{{ url_for('list_records') }}">
+        <i class="fas fa-arrow-left me-2"></i>Back to Records
+      </a>
+      <a class="btn btn-outline-secondary btn-animated" href="{{ url_for('view_record', record_id=request.view_args.record_id) }}">
+        <i class="fas fa-eye me-2"></i>View Record
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('copy-btn');
+  var input = document.getElementById('share-url');
+  var status = document.getElementById('copy-status');
+  
+  function showCopied(){ 
+    if(status){ 
+      status.textContent = 'Copied!'; 
+      setTimeout(function(){ status.textContent=''; }, 1500); 
+    } 
+  }
+  
+  function fallbackCopy(){ 
+    input.select(); 
+    document.execCommand('copy'); 
+    showCopied(); 
+  }
+  
+  if(btn && input){
+    btn.addEventListener('click', function(){
+      var value = input.value;
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(value).then(showCopied).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    });
+  }
+})();
+
+// QR Code download function
+function downloadQR(selector) {
+  var qrImg = document.querySelector(selector);
+  if (qrImg) {
+    var link = document.createElement('a');
+    var filename = selector.includes('lan') ? 'healthlock-mobile-qr.png' : 'healthlock-share-qr.png';
+    link.download = filename;
+    link.href = qrImg.src;
+    link.click();
+  }
+}
+</script>
+{% endblock %}

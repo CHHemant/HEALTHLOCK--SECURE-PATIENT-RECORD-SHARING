@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card p-4 mb-4 border-0">
+  <h2 class="mb-3">Share Record</h2>
+  <p>Generate a read-only link to share this record. Choose how long the link should remain active:</p>
+  
+  <form method="post" class="mt-3">
+    <div class="mb-3">
+      <label for="time_limit" class="form-label">
+        <i class="fas fa-clock me-2"></i>Link Expiration Time
+      </label>
+      <select class="form-select" id="time_limit" name="time_limit" required>
+        <option value="60">1 minute</option>
+        <option value="300">5 minutes</option>
+        <option value="600">10 minutes</option>
+        <option value="900">15 minutes</option>
+        <option value="1200">20 minutes</option>
+        <option value="1500">25 minutes</option>
+        <option value="1800" selected>30 minutes</option>
+        <option value="2100">35 minutes</option>
+        <option value="2400">40 minutes</option>
+        <option value="2700">45 minutes</option>
+        <option value="3000">50 minutes</option>
+        <option value="3300">55 minutes</option>
+        <option value="3600">1 hour</option>
+        <option value="5400">1 hour 30 minutes</option>
+        <option value="7200">2 hours</option>
+        <option value="10800">3 hours</option>
+        <option value="14400">4 hours</option>
+        <option value="18000">5 hours</option>
+        <option value="21600">6 hours</option>
+        <option value="28800">8 hours</option>
+        <option value="43200">12 hours</option>
+        <option value="86400">24 hours (1 day)</option>
+        <option value="172800">48 hours (2 days)</option>
+        <option value="259200">72 hours (3 days)</option>
+        <option value="604800">1 week</option>
+      </select>
+      <div class="form-text">
+        <i class="fas fa-info-circle me-1"></i>
+        The link will automatically expire after the selected time period. Choose a shorter time for sensitive information.
+        The link will automatically expire after the selected time period. Choose a shorter time for sensitive information.
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card border-0 shadow-lg">
+      <div class="card-header brand-panel text-center py-4">
+        <div class="d-flex align-items-center justify-content-center mb-3">
+          <div class="medical-icon icon-soft">
+            <i class="fas fa-share-alt"></i>
+          </div>
+        </div>
+        <h3 class="mb-1">Share Record</h3>
+        <p class="mb-0 opacity-90">Generate secure sharing link</p>
+      </div>
+      <div class="card-body p-4">
+        <div class="record-preview mb-4 p-3 bg-light rounded">
+          <h5 class="mb-2">
+            <i class="fas fa-user-injured me-2 text-primary"></i>{{ record.patient_name }}
+          </h5>
+          <p class="text-muted mb-2">
+            <i class="fas fa-calendar me-1"></i>Created: {{ record.created_at.strftime('%B %d, %Y') }}
+          </p>
+          <div class="d-flex gap-2">
+            <span class="badge bg-success">
+              <i class="fas fa-lock me-1"></i>Encrypted
+            </span>
+            {% if record.has_pdf %}
+            <span class="badge bg-info">
+              <i class="fas fa-file-pdf me-1"></i>PDF Attached
+            </span>
+            {% endif %}
+          </div>
+        </div>
+
+        <form method="POST">
+          <div class="mb-4">
+            <label for="time_limit" class="form-label fw-semibold">
+              <i class="fas fa-clock me-2 text-primary"></i>Link Expiration Time
+            </label>
+            <select class="form-select form-select-lg" id="time_limit" name="time_limit">
+              <option value="300">5 minutes</option>
+              <option value="900">15 minutes</option>
+              <option value="1800">30 minutes</option>
+              <option value="3600" selected>1 hour</option>
+              <option value="7200">2 hours</option>
+              <option value="21600">6 hours</option>
+              <option value="43200">12 hours</option>
+              <option value="86400">24 hours</option>
+              <option value="604800">1 week</option>
+            </select>
+            <div class="form-text">Choose how long the sharing link should remain active</div>
+          </div>
+
+          <div class="alert alert-warning d-flex align-items-start mb-4">
+            <i class="fas fa-exclamation-triangle me-3 mt-1"></i>
+            <div>
+              <strong>Security Warning</strong><br>
+              <small>The generated link will provide read-only access to this medical record. Only share with authorized personnel. The link will automatically expire after the selected time period.</small>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{{ url_for('view_record', record_id=record.id) }}" class="btn btn-outline-secondary btn-lg">
+              <i class="fas fa-times me-2"></i>Cancel
+            </a>
+            <button type="submit" class="btn btn-primary btn-lg btn-animated">
+              <i class="fas fa-qrcode me-2"></i>Generate Share Link
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-link me-2"></i>Generate Share Link
+      </button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('list_records') }}">
+        <i class="fas fa-times me-2"></i>Cancel
+      </a>
+    </div>
+  </form>
+  </div>
+</div>
+{% endblock %}

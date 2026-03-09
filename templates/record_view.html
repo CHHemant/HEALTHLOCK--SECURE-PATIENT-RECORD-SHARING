@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card p-4 mb-4 border-0">
+  <h2 class="mb-2">Record #{{ record.id }} &mdash; {{ record.patient_name }}</h2>
+  <p class="muted mb-3">Created {{ record.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+  <pre class="bg-light p-3 rounded border mb-3">{{ content }}</pre>
+  {% if record.has_pdf %}
+    <div class="alert alert-info mb-3">
+      <strong>PDF Attachment:</strong> This record has a PDF file attached.
+    </div>
+  {% endif %}
+  <div class="mt-3 d-flex gap-2">
+    <a class="btn btn-primary" href="{{ url_for('share_record', record_id=record.id) }}">Share</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('list_records') }}">Back</a>
+    {% if current_user and current_user.id == record.created_by_user_id %}
+      <a class="btn btn-outline-primary" href="{{ url_for('record_pdf', record_id=record.id) }}">Generate PDF</a>
+      {% if record.has_pdf %}
+        <a class="btn btn-outline-success" href="{{ url_for('download_record_pdf', record_id=record.id) }}">Download PDF</a>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

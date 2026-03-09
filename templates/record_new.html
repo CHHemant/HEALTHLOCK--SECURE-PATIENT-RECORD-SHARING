@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">Create New Patient Record</h1>
+    <p class="hero-subtitle">Add secure patient information and medical data</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex align-items-center">
+      <div class="medical-icon me-3">📝</div>
+      <div>
+        <h3 class="mb-0">New Patient Record</h3>
+        <p class="mb-0 opacity-75">Enter patient information securely</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-4">
+    <form method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <label class="form-label fw-semibold">
+            <i class="fas fa-user me-2"></i>Patient Name
+          </label>
+          <input type="text" name="patient_name" class="form-control" placeholder="Enter patient's full name" required autofocus>
+        </div>
+        <div class="col-md-6 mb-4">
+          <label class="form-label fw-semibold">
+            <i class="fas fa-calendar me-2"></i>Date of Birth (Optional)
+          </label>
+          <input type="date" name="dob" class="form-control" title="Date of Birth" placeholder="YYYY-MM-DD">
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <label class="form-label fw-semibold">
+          <i class="fas fa-file-medical me-2"></i>Medical Record Content
+        </label>
+        <textarea name="content" rows="12" class="form-control" required placeholder="Enter clinical notes, medical history, allergies, medications, treatment plans, and other relevant medical information..."></textarea>
+        <div class="form-text">
+          <i class="fas fa-info-circle me-1"></i>
+          Include all relevant medical information, treatment history, and clinical observations
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <label class="form-label fw-semibold">
+          <i class="fas fa-file-pdf me-2"></i>PDF Attachment (Optional)
+        </label>
+        <div class="input-group">
+          <input type="file" name="pdf_file" class="form-control" accept=".pdf" title="Upload PDF file" placeholder="Choose a PDF file">
+          <span class="input-group-text bg-light">
+            <i class="fas fa-upload text-muted"></i>
+          </span>
+        </div>
+        <div class="form-text">
+          <i class="fas fa-shield-alt me-1"></i>
+          Only PDF files are allowed. Maximum size: 16MB. Files will be encrypted automatically.
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="category" class="form-label fw-semibold">
+            <i class="fas fa-tags me-2"></i>Medical Category (Optional)
+          </label>
+          <select id="category" name="category" class="form-select" title="Medical Category">
+            <option value="">Select category...</option>
+            <option value="general">General Medicine</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="neurology">Neurology</option>
+            <option value="pediatrics">Pediatrics</option>
+            <option value="surgery">Surgery</option>
+            <option value="emergency">Emergency</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="priority" class="form-label fw-semibold">
+            <i class="fas fa-exclamation-triangle me-2"></i>Priority Level
+          </label>
+          <select id="priority" name="priority" class="form-select" title="Priority level">
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="d-flex gap-3 mt-4">
+        <button class="btn btn-primary px-4 py-3" type="submit">
+          <i class="fas fa-save me-2"></i>Save Record Securely
+        </button>
+        <a class="btn btn-outline-secondary px-4 py-3" href="{{ url_for('list_records') }}">
+          <i class="fas fa-times me-2"></i>Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h6>End-to-End Encryption</h6>
+          <p class="muted">All data is encrypted using AES-256 encryption before storage</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h6>HIPAA Compliant</h6>
+          <p class="muted">Meets all healthcare data protection and privacy requirements</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h6>Audit Trail</h6>
+          <p class="muted">Complete tracking of all record access and modifications</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

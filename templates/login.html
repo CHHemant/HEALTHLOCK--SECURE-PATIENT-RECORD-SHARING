@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <div class="row w-100 justify-content-center g-0">
+    <!-- Left: Brand + Feature highlights -->
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5">
+      <div class="text-center animate-fade-in">
+        <div class="mb-4">
+          <svg width="80" height="80" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-4">
+            <circle cx="22.5" cy="22.5" r="20" fill="url(#logoGradient)" stroke="var(--primary-blue)" stroke-width="2"/>
+            <polygon points="22.5,8 32,15 32,25 22.5,32 13,25 13,15" fill="white" stroke="var(--primary-blue)" stroke-width="1.5"/>
+            <path d="M22.5 28C22.5 28 18 24 18 20.5C18 19.1 19.1 18 20.5 18C21.3 18 22 18.3 22.5 18.8C23 18.3 23.7 18 24.5 18C25.9 18 27 19.1 27 20.5C27 24 22.5 28 22.5 28Z" fill="var(--primary-blue)"/>
+            <circle cx="22.5" cy="12" r="2" fill="white"/>
+            <rect x="21" y="14" width="3" height="2" rx="1" fill="white"/>
+            <defs>
+              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--primary-blue)"/>
+                <stop offset="100%" style="stop-color:var(--secondary-blue)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="display-4 fw-bold text-gradient mb-3">HealthLock</h1>
+        <p class="lead text-muted mb-4">Secure Patient Record Sharing</p>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-4">
+            <div class="text-center">
+              <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; margin-bottom: 1rem;">
+                <i class="fas fa-shield-alt text-primary fs-4"></i>
+              </div>
+              <h6 class="fw-bold">End-to-End Encryption</h6>
+              <p class="text-muted small">Bank-level security for all records</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; margin-bottom: 1rem;">
+                <i class="fas fa-bolt text-success fs-4"></i>
+              </div>
+              <h6 class="fw-bold">Instant Sharing</h6>
+              <p class="text-muted small">Time-limited secure links</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; margin-bottom: 1rem;">
+                <i class="fas fa-eye text-info fs-4"></i>
+              </div>
+              <h6 class="fw-bold">Full Audit Trail</h6>
+              <p class="text-muted small">Every access is tracked</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Login card -->
+    <div class="col-lg-6 d-flex align-items-center justify-content-center p-4">
+      <div class="card shadow-glow animate-fade-in" style="max-width: 400px; width: 100%;">
+        <div class="card-header text-center border-0 bg-transparent pt-4">
+          <div class="mb-3">
+            <i class="fas fa-lock text-primary fs-1"></i>
+          </div>
+          <h3 class="fw-bold mb-2">Welcome Back</h3>
+          <p class="text-muted mb-0">Sign in to access your secure records</p>
+        </div>
+        <div class="card-body p-4">
+          {% if locked %}
+          <div class="alert alert-warning d-flex align-items-center mb-4">
+            <i class="fas fa-exclamation-triangle me-3"></i>
+            <div>
+              <strong>Account Locked</strong><br>
+              <small>Too many failed attempts. Use emergency login or wait 5 minutes.</small>
+            </div>
+          </div>
+          {% endif %}
+
+          <form method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label fw-semibold">
+                <i class="fas fa-user me-2 text-primary"></i>Username
+              </label>
+              <input type="text" class="form-control form-control-lg" id="username" name="username"
+                     required autocomplete="username" {% if locked %}value="{{ username }}"{% endif %}
+                     placeholder="Enter your username">
+              <div class="invalid-feedback">Please enter your username.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label fw-semibold">
+                <i class="fas fa-lock me-2 text-primary"></i>Password
+              </label>
+              <div class="input-group">
+                <input type="password" class="form-control form-control-lg border-end-0" id="password" name="password"
+                       required autocomplete="current-password" placeholder="Enter your password">
+                <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback">Please enter your password.</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <a class="text-decoration-none text-primary fw-medium" href="{{ url_for('forgot') }}">
+                <i class="fas fa-key me-1"></i>Forgot password?
+              </a>
+              <a class="text-decoration-none text-primary fw-medium" href="{{ url_for('register') }}">
+                <i class="fas fa-user-plus me-1"></i>Create account
+              </a>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3 mb-3 fw-semibold">
+              <i class="fas fa-sign-in-alt me-2"></i>Sign In Securely
+            </button>
+          </form>
+
+          {% if locked %}
+          <div class="alert alert-warning mt-3">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            Your account is locked. Use <a href="{{ url_for('emergency_login', username=username) }}" class="alert-link">Emergency Login</a> to regain access.
+          </div>
+          {% endif %}
+
+          <div class="text-center mb-4">
+            <p class="text-muted mb-2">Don't have an account?</p>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-primary w-100">
+              <i class="fas fa-user-plus me-2"></i>Create Account
+            </a>
+          </div>
+
+          <div class="text-center">
+            <span class="badge bg-light text-dark px-3 py-2">
+              <strong>Demo:</strong> admin / admin
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <div class="d-flex justify-content-center gap-4 flex-wrap">
+    <a href="{{ url_for('about') }}" class="text-decoration-none text-muted fw-medium">
+      <i class="fas fa-info-circle me-1"></i>About
+    </a>
+    <span class="text-muted">•</span>
+    <a href="#" class="text-decoration-none text-muted fw-medium">
+      <i class="fas fa-shield-alt me-1"></i>Security
+    </a>
+    <span class="text-muted">•</span>
+    <a href="#" class="text-decoration-none text-muted fw-medium" title="Help">
+      <i class="fas fa-question-circle me-1"></i>Help
+    </a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Password visibility toggle
+  const toggle = document.getElementById('togglePassword');
+  const pwd = document.getElementById('password');
+  if (toggle && pwd) {
+    toggle.addEventListener('click', () => {
+      const type = pwd.type === 'password' ? 'text' : 'password';
+      pwd.type = type;
+      toggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+  }
+
+  // Form validation
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.prototype.slice.call(forms).forEach(function(form) {
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+});
+</script>
+{% endblock %}

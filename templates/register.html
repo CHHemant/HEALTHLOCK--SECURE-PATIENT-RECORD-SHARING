@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <div class="row w-100 justify-content-center g-0">
+    <!-- Left: Brand + Benefits -->
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5">
+      <div class="text-center animate-fade-in">
+        <div class="mb-4">
+          <svg width="80" height="80" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-4">
+            <circle cx="22.5" cy="22.5" r="20" fill="url(#logoGradient)" stroke="var(--primary-blue)" stroke-width="2"/>
+            <polygon points="22.5,8 32,15 32,25 22.5,32 13,25 13,15" fill="white" stroke="var(--primary-blue)" stroke-width="1.5"/>
+            <path d="M22.5 28C22.5 28 18 24 18 20.5C18 19.1 19.1 18 20.5 18C21.3 18 22 18.3 22.5 18.8C23 18.3 23.7 18 24.5 18C25.9 18 27 19.1 27 20.5C27 24 22.5 28 22.5 28Z" fill="var(--primary-blue)"/>
+            <circle cx="22.5" cy="12" r="2" fill="white"/>
+            <rect x="21" y="14" width="3" height="2" rx="1" fill="white"/>
+            <defs>
+              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--primary-blue)"/>
+                <stop offset="100%" style="stop-color:var(--secondary-blue)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="display-4 fw-bold text-gradient mb-3">Join HealthLock</h1>
+        <p class="lead text-muted mb-4">Secure your medical records with enterprise-grade protection</p>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-4">
+            <div class="text-center">
+              <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                <i class="fas fa-user-shield text-primary fs-4"></i>
+              </div>
+              <h6 class="fw-bold">Secure Access</h6>
+              <p class="text-muted small">Personal account with full control</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                <i class="fas fa-key text-success fs-4"></i>
+              </div>
+              <h6 class="fw-bold">Password Recovery</h6>
+              <p class="text-muted small">Secure email-based recovery</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                <i class="fas fa-check-circle text-info fs-4"></i>
+              </div>
+              <h6 class="fw-bold">Verified Setup</h6>
+              <p class="text-muted small">Complete security configuration</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Registration Form -->
+    <div class="col-lg-6 d-flex align-items-center justify-content-center p-4">
+      <div class="card shadow-glow animate-fade-in" style="max-width: 450px; width: 100%;">
+        <div class="card-header text-center border-0 bg-transparent pt-4">
+          <div class="mb-3">
+            <i class="fas fa-user-plus text-primary fs-1"></i>
+          </div>
+          <h3 class="fw-bold mb-2">Create Account</h3>
+          <p class="text-muted mb-0">Join HealthLock for secure medical records</p>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="username" class="form-label fw-semibold">
+                  <i class="fas fa-user me-2 text-primary"></i>Username
+                </label>
+                <input type="text" class="form-control form-control-lg" id="username" name="username"
+                       required minlength="3" maxlength="80" pattern="[a-zA-Z0-9]+"
+                       autocomplete="username" placeholder="Choose a username">
+                <div class="form-text">3-80 alphanumeric characters only</div>
+                <div class="invalid-feedback">Username must be 3-80 alphanumeric characters.</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label fw-semibold">
+                  <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                </label>
+                <input type="email" class="form-control form-control-lg" id="email" name="email"
+                       required autocomplete="email" placeholder="your@email.com">
+                <div class="form-text">For account recovery</div>
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label fw-semibold">
+                <i class="fas fa-lock me-2 text-primary"></i>Password
+              </label>
+              <div class="input-group">
+                <input type="password" class="form-control form-control-lg border-end-0" id="password" name="password"
+                       required minlength="8" autocomplete="new-password" placeholder="Create a strong password">
+                <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword" aria-label="Toggle password visibility">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="form-text">Minimum 8 characters required</div>
+              <div class="invalid-feedback">Password must be at least 8 characters long.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="confirm_password" class="form-label fw-semibold">
+                <i class="fas fa-lock me-2 text-primary"></i>Confirm Password
+              </label>
+              <input type="password" class="form-control form-control-lg" id="confirm_password" name="confirm_password"
+                     required autocomplete="new-password" placeholder="Confirm your password">
+              <div class="invalid-feedback">Passwords must match.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3 mb-3 fw-semibold">
+              <i class="fas fa-user-plus me-2"></i>Create Account
+            </button>
+          </form>
+
+          <div class="text-center mb-4">
+            <p class="text-muted mb-2">Already have an account?</p>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary w-100">
+              <i class="fas fa-sign-in-alt me-2"></i>Sign In Instead
+            </a>
+          </div>
+
+          <div class="text-center">
+            <small class="text-muted">
+              By creating an account, you agree to our terms of service and privacy policy.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Password visibility toggle
+  const toggle = document.getElementById('togglePassword');
+  const pwd = document.getElementById('password');
+  if (toggle && pwd) {
+    toggle.addEventListener('click', () => {
+      const type = pwd.type === 'password' ? 'text' : 'password';
+      pwd.type = type;
+      toggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+  }
+
+  // Password confirmation validation
+  const confirmPwd = document.getElementById('confirm_password');
+  if (confirmPwd) {
+    confirmPwd.addEventListener('input', function() {
+      const password = document.getElementById('password').value;
+      if (this.value !== password) {
+        this.setCustomValidity('Passwords must match.');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+  }
+
+  // Form validation
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.prototype.slice.call(forms).forEach(function(form) {
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+});
+</script>
+{% endblock %} 
+                     required minlength="8" autocomplete="new-password">
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="form-text">
+              <div class="password-requirements">
+                <small class="d-block">Password must contain:</small>
+                <small class="requirement" data-requirement="length">• At least 8 characters</small>
+                <small class="requirement" data-requirement="lowercase">• One lowercase letter</small>
+                <small class="requirement" data-requirement="uppercase">• One uppercase letter</small>
+                <small class="requirement" data-requirement="number">• One number</small>
+              </div>
+            </div>
+            <div class="invalid-feedback">Password does not meet requirements.</div>
+          </div>
+
+          <div class="mb-4">
+            <label for="confirm" class="form-label fw-semibold">
+              <i class="fas fa-check-circle me-2 text-primary"></i>Confirm Password
+            </label>
+            <input type="password" class="form-control" id="confirm" name="confirm" 
+                   required autocomplete="new-password">
+            <div class="invalid-feedback">Passwords do not match.</div>
+          </div>
+
+          <div class="mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="terms" required>
+              <label class="form-check-label" for="terms">
+                I agree to the <a href="#" class="text-primary">Terms of Service</a> and 
+                <a href="#" class="text-primary">Privacy Policy</a>
+              </label>
+              <div class="invalid-feedback">You must agree to the terms.</div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 btn-animated">
+            <i class="fas fa-user-plus me-2"></i>Create Account
+          </button>
+        </form>
+
+        <div class="text-center">
+          <p class="text-muted mb-2">Already have an account?</p>
+          <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Password toggle
+  const togglePassword = document.getElementById('togglePassword');
+  const password = document.getElementById('password');
+  
+  if (togglePassword && password) {
+    togglePassword.addEventListener('click', function() {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.querySelector('i').classList.toggle('fa-eye');
+      this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+  }
+
+  // Password validation
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirm');
+  const requirements = document.querySelectorAll('.requirement');
+
+  function validatePassword() {
+    const value = passwordInput.value;
+    const checks = {
+      length: value.length >= 8,
+      lowercase: /[a-z]/.test(value),
+      uppercase: /[A-Z]/.test(value),
+      number: /\d/.test(value)
+    };
+
+    requirements.forEach(req => {
+      const type = req.dataset.requirement;
+      req.classList.toggle('text-success', checks[type]);
+      req.classList.toggle('text-muted', !checks[type]);
+    });
+
+    return Object.values(checks).every(Boolean);
+  }
+
+  function validateConfirm() {
+    const match = confirmInput.value === passwordInput.value;
+    confirmInput.setCustomValidity(match ? '' : 'Passwords do not match');
+    return match;
+  }
+
+  if (passwordInput) {
+    passwordInput.addEventListener('input', validatePassword);
+  }
+  
+  if (confirmInput) {
+    confirmInput.addEventListener('input', validateConfirm);
+  }
+
+  // Form validation
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      const isPasswordValid = validatePassword();
+      const isConfirmValid = validateConfirm();
+      
+      if (!form.checkValidity() || !isPasswordValid || !isConfirmValid) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  });
+});
+</script>
+
+<style>
+.requirement {
+  transition: color 0.3s ease;
+}
+.requirement.text-success::before {
+  content: '✓ ';
+  font-weight: bold;
+}
+</style>
+
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">🏥</div>
+          <h5>Healthcare Focused</h5>
+          <p class="muted">Built specifically for healthcare professionals and institutions</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h5>HIPAA Compliant</h5>
+          <p class="muted">Meets all healthcare data protection requirements</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h5>Easy to Use</h5>
+          <p class="muted">Intuitive interface designed for healthcare workflows</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
